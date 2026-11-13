@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIKTO LAND - Belajar Piktogram</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root{
+  --blue:#75c9f5;--navy:#315b91;--yellow:#ffdc70;
+  --coral:#ff927e;--mint:#a8e8c2;--purple:#c8b5fa;
+  --ink:#354765;--paper:#fffdf7;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:'Nunito',sans-serif;color:var(--ink);
+  background:#eaf7ff;min-height:100vh;
+}
+button{font-family:inherit;cursor:pointer;border:0}
+.app{max-width:1100px;margin:auto;min-height:100vh;background:var(--paper);overflow:hidden;box-shadow:0 0 35px #315b9115}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 5%;background:white;border-bottom:3px solid #edf4fa;
+  position:sticky;top:0;z-index:10;
+}
+.brand{font-weight:900;color:var(--navy);font-size:20px;letter-spacing:.5px}
+.brand span{color:#ff987d}
+.top-actions{display:flex;gap:9px;align-items:center}
+.small-btn{background:#edf7ff;color:var(--navy);padding:9px 13px;border-radius:13px;font-weight:800}
+main{padding:24px 5% 45px;min-height:75vh}
+.screen{display:none;animation:appear .3s ease}
+.screen.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.08;color:var(--navy);font-weight:900}
+h2{font-size:clamp(25px,4vw,36px);color:var(--navy);font-weight:900}
+h3{color:var(--navy)}
+p{line-height:1.7}
+.muted{color:#72849b}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:2px;color:#e77e65;text-transform:uppercase}
+.hero{
+  background:linear-gradient(135deg,#d9f3ff,#fff0c2);
+  border-radius:30px;padding:35px 7%;display:grid;
+  grid-template-columns:1.1fr .9fr;gap:20px;align-items:center;
+  overflow:hidden;position:relative;
+}
+.hero-art{text-align:center;font-size:clamp(65px,12vw,115px);line-height:1.5}
+.hero-art .mini{font-size:34px;display:block}
+.hero p{max-width:470px}
+.primary{
+  background:var(--coral);color:white;padding:14px 25px;border-radius:17px;
+  font-weight:900;font-size:16px;box-shadow:0 5px 0 #e67b69;
+}
+.primary:hover{transform:translateY(-2px)}
+.secondary{background:white;color:var(--navy);padding:12px 19px;border-radius:15px;font-weight:900;border:2px solid #e3eef8}
+.section-title{margin:30px 0 14px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{
+  background:white;border:2px solid #edf2f7;border-radius:22px;
+  padding:20px;box-shadow:0 5px 14px #45678b0b;
+}
+.card-icon{font-size:39px;margin-bottom:10px}
+.card p{font-size:14px;color:#74849a;margin-bottom:0}
+.menu-card{cursor:pointer;transition:.2s}
+.menu-card:hover{transform:translateY(-4px);border-color:#a9dff8}
+.menu-card h3{margin-bottom:5px}
+.page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.page-head .back{background:#edf7ff;color:var(--navy);padding:10px 15px;border-radius:13px;font-weight:900}
+.lesson-box{background:#f0f9ff;border-radius:22px;padding:22px;margin:18px 0}
+.example{
+  background:white;border:2px solid #e9f0f5;border-radius:20px;
+  padding:20px;margin:18px 0;
+}
+.data-table{width:100%;border-collapse:collapse}
+.data-table th,.data-table td{padding:11px;text-align:left;border-bottom:1px solid #e9eff4}
+.data-table th{color:var(--navy);background:#f2f8fc}
+.pictos{font-size:27px;letter-spacing:5px;line-height:1.8;word-break:break-word}
+.pill{display:inline-block;border-radius:50px;background:#fff1c7;padding:6px 12px;font-weight:800;font-size:12px}
+.question{background:#fff8e7;padding:20px;border-radius:20px;margin:15px 0}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.answer{padding:13px;background:white;border:2px solid #e9e9e9;border-radius:13px;font-weight:800;color:var(--ink)}
+.answer:hover{border-color:var(--blue)}
+.answer.correct{background:#e2f8e9;border-color:#73c994}
+.answer.wrong{background:#ffe8e4;border-color:#f49b8b}
+.feedback{font-weight:900;margin-top:12px;min-height:24px}
+.studio-controls{display:flex;flex-wrap:wrap;gap:12px;margin:15px 0}
+select{padding:12px;border:2px solid #dceaf4;border-radius:12px;font:inherit;background:white;color:var(--ink)}
+.generated{background:white;border:2px dashed #a8d9f2;border-radius:20px;padding:18px;margin-top:18px}
+.generated-row{display:grid;grid-template-columns:90px 1fr 70px;gap:10px;align-items:center;padding:9px;border-bottom:1px solid #edf1f5}
+.symbols{font-size:27px;letter-spacing:4px;word-break:break-word}
+.notice{background:#fff4d7;padding:14px 17px;border-radius:15px;font-size:14px}
+footer{text-align:center;color:#8a9aad;font-size:12px;padding:18px;background:#f7fbff}
+@media(max-width:700px){
+ .hero{grid-template-columns:1fr;text-align:center;padding:27px 6%}
+ .hero p{margin-left:auto;margin-right:auto}
+ .cards{grid-template-columns:1fr 1fr}
+ .topbar{padding:12px 4%}
+ .generated-row{grid-template-columns:70px 1fr 55px}
+}
+@media(max-width:460px){.cards{grid-template-columns:1fr}.answers{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand">🌈 PIKTO<span>LAND</span></div>
+  <div class="top-actions">
+    <button class="small-btn" onclick="go('menu')">☰ Menu</button>
+    <button class="small-btn" onclick="go('home')">⌂</button>
+  </div>
+</header>
+
+<main>
+<!-- 1 BERANDA -->
+<section id="home" class="screen active">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Dunia seru belajar matematika</div>
+      <h1>Halo, Teman<br>PIKTO LAND! 🌈</h1>
+      <p>Yuk, mengenal dunia piktogram! Kita akan belajar membaca gambar, menemukan informasi, dan menyajikan data dengan cara yang menyenangkan.</p>
+      <button class="primary" onclick="go('menu')">MULAI BELAJAR ✨</button>
+    </div>
+    <div class="hero-art">
+      <span class="mini">☁️　☀️　☁️</span>
+      🏡🌳🌼
+      <span>🍎 🐝 🦋</span>
+      <span class="mini">🌷 🌈 🌷</span>
+    </div>
+  </div>
+  <div class="section-title">
+    <div class="eyebrow">Selamat datang</div>
+    <h2>Belajar sambil bereksplorasi!</h2>
+    <p class="muted">Di sini kamu akan belajar memahami data melalui gambar dan simbol.</p>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-icon">👀</div><h3>Amati</h3><p>Kenali gambar dan informasi dalam piktogram.</p></div>
+    <div class="card"><div class="card-icon">🧠</div><h3>Pahami</h3><p>Temukan jumlah dan bandingkan data.</p></div>
+    <div class="card"><div class="card-icon">🎨</div><h3>Berkarya</h3><p>Buat piktogrammu sendiri di studio.</p></div>
+  </div>
+</section>
+
+<!-- 2 MENU -->
+<section id="menu" class="screen">
+  <div class="eyebrow">Pilih ruang belajarmu</div>
+  <h2>Menu PIKTO LAND 🏡</h2>
+  <p class="muted">Pilih bagian yang ingin kamu pelajari.</p>
+  <div class="cards">
+    <div class="card menu-card" onclick="go('kenali')"><div class="card-icon">🌱</div><h3>Kenali Piktogram</h3><p>Apa itu piktogram?</p></div>
+    <div class="card menu-card" onclick="go('unsur')"><div class="card-icon">🧩</div><h3>Unsur Piktogram</h3><p>Kenali bagian-bagiannya.</p></div>
+    <div class="card menu-card" onclick="go('baca')"><div class="card-icon">📖</div><h3>Baca Piktogram</h3><p>Temukan informasi dari gambar.</p></div>
+    <div class="card menu-card" onclick="go('banding')"><div class="card-icon">⚖️</div><h3>Bandingkan Data</h3><p>Cari data terbanyak dan tersedikit.</p></div>
+    <div class="card menu-card" onclick="go('studio')"><div class="card-icon">🎨</div><h3>Studio Piktogram</h3><p>Susun piktogram sendiri.</p></div>
+    <div class="card menu-card" onclick="go('latihan')"><div class="card-icon">⭐</div><h3>Latihan</h3><p>Uji pemahamanmu.</p></div>
+    <div class="card menu-card" onclick="go('hasil')"><div class="card-icon">🏆</div><h3>Hasil Belajar</h3><p>Lihat hasil latihanmu.</p></div>
+  </div>
+</section>
+
+<!-- 3 KENALI -->
+<section id="kenali" class="screen">
+  <div class="page-head"><div><div class="eyebrow">Ruang belajar 01</div><h2>Kenali Piktogram 🌱</h2></div><button class="back" onclick="go('menu')">← Menu</button></div>
+  <div class="lesson-box">
+    <h3>Apa itu piktogram?</h3>
+    <p>Piktogram adalah cara menyajikan data menggunakan gambar atau simbol. Setiap gambar mewakili sejumlah data tertentu.</p>
+    <p>Dengan piktogram, informasi menjadi lebih mudah dilihat, dibaca, dan dibandingkan.</p>
+  </div>
+  <div class="example">
+    <span class="pill">Contoh dalam kehidupan sehari-hari</span>
+    <h3>Buah kesukaan teman-teman 🍎</h3>
+    <p>Gambar buah dapat digunakan untuk menunjukkan banyak murid yang menyukai buah tersebut.</p>
+    <div class="pictos">🍎 🍎 🍎</div>
+    <p class="muted">Jika satu gambar mewakili 2 murid, maka 3 gambar apel mewakili 6 murid.</p>
+  </div>
+  <div class="notice">💡 Ingat: gambar dalam piktogram bukan sekadar hiasan. Setiap simbol memiliki nilai yang harus kita perhatikan.</div>
+  <button class="primary" onclick="go('unsur')">Lanjut mengenal unsur →</button>
+</section>
+
+<!-- 4 UNSUR -->
+<section id="unsur" class="screen">
+  <div class="page-head"><div><div class="eyebrow">Ruang belajar 02</div><h2>Unsur Piktogram 🧩</h2></div><button class="back" onclick="go('menu')">← Menu</button></div>
+  <p>Ada beberapa bagian penting yang perlu diperhatikan saat membaca piktogram.</p>
+  <div class="cards">
+    <div class="card"><div class="card-icon">🏷️</div><h3>Judul</h3><p>Menjelaskan data apa yang disajikan.</p></div>
+    <div class="card"><div class="card-icon">📋</div><h3>Kategori</h3><p>Kelompok atau jenis data yang dibandingkan.</p></div>
+    <div class="card"><div class="card-icon">🍎</div><h3>Simbol</h3><p>Gambar yang digunakan untuk mewakili data.</p></div>
+    <div class="card"><div class="card-icon">🔢</div><h3>Keterangan</h3><p>Menjelaskan nilai dari setiap simbol.</p></div>
+  </div>
+  <div class="example">
+    <h3>Contoh keterangan simbol</h3>
+    <div class="pictos">🍎 = 2 murid</div>
+    <p>Artinya, satu gambar apel mewakili dua murid. Jadi, empat gambar apel mewakili delapan murid.</p>
+  </div>
+  <button class="primary" onclick="go('baca')">Ayo membaca piktogram →</button>
+</section>
+
+<!-- 5 BACA -->
+<section id="baca" class="screen">
+  <div class="page-head"><div><div class="eyebrow">Ruang belajar 03</div><h2>Baca Piktogram 📖</h2></div><button class="back" onclick="go('menu')">← Menu</button></div>
+  <p>Perhatikan data buah kesukaan murid kelas IV berikut.</p>
+  <div class="example">
+    <h3>Buah Kesukaan Murid</h3>
+    <p class="muted">Keterangan: 1 gambar = 2 murid</p>
+    <div class="generated-row"><strong>Apel</strong><div class="symbols">🍎 🍎 🍎</div><strong>6</strong></div>
+    <div class="generated-row"><strong>Jeruk</strong><div class="symbols">🍊 🍊</div><strong>4</strong></div>
+    <div class="generated-row"><strong>Mangga</strong><div class="symbols">🥭 🥭 🥭 🥭</div><strong>8</strong></div>
+  </div>
+  <div class="lesson-box">
+    <h3>Cara membaca piktogram</h3>
+    <p>1. Perhatikan judul piktogram.</p>
+    <p>2. Perhatikan kategori data.</p>
+    <p>3. Hitung jumlah simbol pada setiap kategori.</p>
+    <p>4. Kalikan jumlah simbol dengan nilai setiap simbol.</p>
+  </div>
+  <button class="primary" onclick="go('banding')">Lanjut membandingkan →</button>
+</section>
+
+<!-- 6 BANDINGKAN -->
+<section id="banding" class="screen">
+  <div class="page-head"><div><div class="eyebrow">Ruang belajar 04</div><h2>Bandingkan Data ⚖️</h2></div><button class="back" onclick="go('menu')">← Menu</button></div>
+  <p>Gunakan piktogram buah kesukaan pada halaman sebelumnya.</p>
+  <div class="cards">
+    <div class="card"><div class="card-icon">🥭</div><h3>Terbanyak</h3><p>Mangga disukai 8 murid.</p></div>
+    <div class="card"><div class="card-icon">🍊</div><h3>Tersedikit</h3><p>Jeruk disukai 4 murid.</p></div>
+    <div class="card"><div class="card-icon">➖</div><h3>Selisih</h3><p>8 − 4 = 4 murid.</p></div>
+  </div>
+  <div class="lesson-box">
+    <h3>Apa yang perlu diperhatikan?</h3>
+    <p>Untuk membandingkan data, pastikan kamu sudah mengubah jumlah simbol menjadi jumlah sebenarnya berdasarkan keterangan nilai simbol.</p>
+  </div>
+  <button class="primary" onclick="go('studio')">Coba membuat piktogram →</button>
+</section>
+
+<!-- 7 STUDIO -->
+<section id="studio" class="screen">
+  <div class="page-head"><div><div class="eyebrow">Ruang berkarya 05</div><h2>Studio Piktogram 🎨</h2></div><button class="back" onclick="go('menu')">← Menu</button></div>
+  <p>Sekarang giliranmu menyusun piktogram berdasarkan data berikut!</p>
+  <div class="example">
+    <h3>Data buah kesukaan</h3>
+    <table class="data-table">
+      <tr><th>Buah</th><th>Jumlah murid</th></tr>
+      <tr><td>Apel 🍎</td><td>6</td></tr>
+      <tr><td>Jeruk 🍊</td><td>4</td></tr>
+      <tr><td>Mangga 🥭</td><td>8</td></tr>
+    </table>
+  </div>
+  <div class="lesson-box">
+    <h3>Atur piktogrammu</h3>
+    <p>Pilih nilai setiap simbol dan gambar yang akan kamu gunakan.</p>
+    <div class="studio-controls">
+      <label>Nilai simbol<br><select id="unit"><option value="1">1 simbol = 1 murid</option><option value="2" selected>1 simbol = 2 murid</option></select></label>
+      <label>Simbol pilihan<br><select id="symbol"><option value="⭐">⭐ Bintang</option><option value="❤️">❤️ Hati</option><option value="●">● Lingkaran</option><option value="🌼">🌼 Bunga</option></select></label>
+    </div>
+    <button class="primary" onclick="makePictogram()">Buat piktogramku ✨</button>
+  </div>
+  <div id="studioResult" class="generated">
+    <h3>Hasil piktogram akan muncul di sini</h3>
+    <p class="muted">Pilih pengaturan, lalu tekan tombol Buat Piktogramku.</p>
+  </div>
+  <div class="notice">💡 Periksa kembali apakah jumlah simbol sudah sesuai dengan jumlah murid pada tabel.</div>
+</section>
+
+<!-- 8 LATIHAN -->
+<section id="latihan" class="screen">
+  <div class="page-head"><div><div class="eyebrow">Uji pemahaman</div><h2>Latihan Seru ⭐</h2></div><button class="back" onclick="go('menu')">← Menu</button></div>
+  <p>Jawablah pertanyaan berikut dengan teliti. Ada tiga soal untukmu!</p>
+  <div class="question">
+    <div class="pill" id="qNumber">Soal 1 dari 3</div>
+    <h3 id="qText">Jika satu gambar mewakili 2 murid, berapa jumlah murid yang diwakili 3 gambar?</h3>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+  <button class="secondary" id="nextQuestion" onclick="nextQ()" style="display:none">Soal berikutnya →</button>
+</section>
+
+<!-- 9 HASIL -->
+<section id="hasil" class="screen">
+  <div class="page-head"><div><div class="eyebrow">Perjalanan belajarmu</div><h2>Hasil Belajar 🏆</h2></div><button class="back" onclick="go('menu')">← Menu</button></div>
+  <div class="hero" style="grid-template-columns:1fr;text-align:center">
+    <div style="font-size:70px">🏆 ⭐ 🎉</div>
+    <h2>Hebat, Teman PIKTO LAND!</h2>
+    <p>Skor latihan terakhirmu:</p>
+    <h1 id="finalScore">0/3</h1>
+    <p id="resultMessage">Yuk, terus berlatih agar semakin memahami piktogram!</p>
+    <div><button class="primary" onclick="startQuiz()">Coba latihan lagi</button></div>
+  </div>
+</section>
+</main>
+<footer>🌈 PIKTO LAND · Belajar Data Jadi Menyenangkan · Matematika Kelas IV</footer>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='latihan' && !quizStarted) startQuiz();
+}
+function makePictogram(){
+  const unit=Number(document.getElementById('unit').value);
+  const symbol=document.getElementById('symbol').value;
+  const data=[['Apel',6],['Jeruk',4],['Mangga',8]];
+  let html='<h3>Piktogram Buah Kesukaan</h3><p class="muted">Keterangan: 1 simbol = '+unit+' murid</p>';
+  data.forEach(([name,total])=>{
+    const count=total/unit;
+    html+='<div class="generated-row"><strong>'+name+'</strong><div class="symbols">'+symbol.repeat(count)+'</div><strong>'+total+'</strong></div>';
+  });
+  html+='<p class="muted">Jumlah seluruh murid: 18</p>';
+  document.getElementById('studioResult').innerHTML=html;
+}
+const questions=[
+ {q:'Jika satu gambar mewakili 2 murid, berapa jumlah murid yang diwakili 3 gambar?',a:['4 murid','5 murid','6 murid','8 murid'],correct:2},
+ {q:'Apel disukai 6 murid dan jeruk disukai 4 murid. Buah apa yang lebih banyak disukai?',a:['Apel','Jeruk','Sama banyak','Tidak dapat diketahui'],correct:0},
+ {q:'Jika 1 simbol mewakili 2 murid, berapa simbol untuk menunjukkan 8 murid?',a:['2 simbol','3 simbol','4 simbol','6 simbol'],correct:2}
+];
+let qIndex=0,score=0,answered=false,quizStarted=false,lastScore=0;
+function startQuiz(){
+  qIndex=0;score=0;answered=false;quizStarted=true;showQuestion();
+}
+function showQuestion(){
+  answered=false;
+  const q=questions[qIndex];
+  document.getElementById('qNumber').textContent='Soal '+(qIndex+1)+' dari '+questions.length;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('feedback').textContent='';
+  document.getElementById('nextQuestion').style.display='none';
+  document.getElementById('answers').innerHTML=q.a.map((a,i)=>'<button class="answer" onclick="chooseAnswer('+i+',this)">'+a+'</button>').join('');
+}
+function chooseAnswer(i,button){
+  if(answered)return;
+  answered=true;
+  const q=questions[qIndex];
+  const buttons=document.querySelectorAll('.answer');
+  buttons[q.correct].classList.add('correct');
+  if(i===q.correct){
+    score++;document.getElementById('feedback').textContent='🎉 Benar! Jawabanmu tepat.';
+    document.getElementById('feedback').style.color='#32965b';
+  }else{
+    button.classList.add('wrong');
+    document.getElementById('feedback').textContent='Belum tepat. Ayo perhatikan kembali materinya!';
+    document.getElementById('feedback').style.color='#d36c5c';
+  }
+  document.getElementById('nextQuestion').style.display='inline-block';
+  document.getElementById('nextQuestion').textContent=qIndex===questions.length-1?'Lihat hasil 🏆':'Soal berikutnya →';
+}
+function nextQ(){
+  if(qIndex<questions.length-1){qIndex++;showQuestion();}
+  else{
+    lastScore=score;
+    document.getElementById('finalScore').textContent=score+'/'+questions.length;
+    document.getElementById('resultMessage').textContent=score===3?'Luar biasa! Kamu sudah memahami piktogram!':score===2?'Bagus! Terus berlatih agar semakin hebat.':'Tetap semangat! Pelajari kembali materi dan coba lagi.';
+    quizStarted=false;go('hasil');
+  }
+}
+</script>
+</body>
+</html>
